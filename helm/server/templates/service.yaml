@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "server.fullname" . }}
+  labels:
+    {{- include "server.labels" . | nindent 4 }}
+  
+  #! Only needed when using normal Ingress resource with Contour
+  {{ if .Values.ingress.enabled }}
+  annotations:
+    projectcontour.io/upstream-protocol.h2c: {{ .Values.app.grpcPort }} 
+  {{ end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: {{ .Values.app.grpcPort }}
+      targetPort: {{ .Values.app.grpcPort }}
+      protocol: TCP
+      name: grpc
+    {{- if ne .Values.app.grpcPort .Values.app.grpcHealthPort }}
+    - name: grpc-health
+      targetPort: {{ .Values.app.grpcHealthPort }}
+      port: {{ .Values.app.grpcHealthPort }}
+      protocol: TCP
+    {{- end }}
+  selector:
+    {{- include "server.selectorLabels" . | nindent 4 }}

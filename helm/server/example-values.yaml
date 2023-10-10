@@ -1,0 +1,42 @@
+namespace: "gitstafette"
+app:
+  repositories: "537845873,478599060,168425507,587075550,583684693"
+  grpcPort: 50051
+  httpPort: 8080
+  httpPrefix: "/"
+security:
+  caOnly: false
+  useGeneratedCert: true
+  certmanager:
+    generateCert: true
+    issuer:
+      name: "kearos-issuer"
+      kind: "ClusterIssuer"
+image:
+  pullPolicy: IfNotPresent
+  tag: 0.1.0-e0a2c7d
+imagePullSecrets:
+- name: ghcr-pull-secret-2
+resources:
+  requests:
+    cpu: 250m
+    memory: 16Mi
+  limits:
+    memory: 32Mi
+service:
+  type: ClusterIP
+  port: 80
+ingress:
+  enabled: false
+httpproxy:
+  enabled: false
+  ingressClassName: contour
+  fqdn: gsf-server.home.lab
+  grpc:
+    prefix: /
+    protocol: h2c
+  http:
+    prefix: /api
+    replacement: /
+istio:
+  enabled: true
