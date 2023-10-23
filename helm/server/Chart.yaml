@@ -1,6 +1,6 @@
 apiVersion: v2
-name: server
-description: A Helm chart for Kubernetes
+name: gsf-server
+description: Gitstafette Server, for receiving Webhooks from GitHub
 
 # A chart can be either an 'application' or a 'library' chart.
 #
