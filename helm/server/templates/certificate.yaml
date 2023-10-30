@@ -3,6 +3,9 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ include "tls.certName" . }}
+{{ if .Values.istio.enabled }}
+  namespace: istio-system
+{{ end }}
 spec:
   secretName: {{ include "tls.secretName" . }}
   issuerRef:
