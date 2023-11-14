@@ -28,7 +28,7 @@ spec:
         replacePrefix:
           - replacement: {{ .Values.httpproxy.http.replacement  }}
   virtualhost:
-    fqdn:  {{ .Values.httpproxy.fqdn }}
+    fqdn:  {{ .Values.fqdn }}
     {{ if .Values.security.useGeneratedCert }}
     tls:
       secretName: {{ include "tls.secretName" . }}

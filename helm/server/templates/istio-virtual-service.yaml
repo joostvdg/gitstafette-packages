@@ -5,7 +5,7 @@ metadata:
   name: {{ include "server.fullname" . }}
 spec:
   hosts:
-    - {{ .Values.httpproxy.fqdn }}
+    - {{ .Values.fqdn }}
   gateways:
     - {{ include "server.fullname" . }}
 

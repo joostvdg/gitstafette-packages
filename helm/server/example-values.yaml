@@ -25,12 +25,12 @@ resources:
 service:
   type: ClusterIP
   port: 80
+fqdn: gsf-server.home.lab
 ingress:
   enabled: false
 httpproxy:
   enabled: false
   ingressClassName: contour
-  fqdn: gsf-server.home.lab
   grpc:
     prefix: /
     protocol: h2c
