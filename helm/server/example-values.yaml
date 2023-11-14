@@ -5,8 +5,7 @@ app:
   httpPort: 8080
   httpPrefix: "/"
 security:
-  caOnly: false
-  useGeneratedCert: true
+  useGeneratedCert: false
   certmanager:
     generateCert: true
     issuer:

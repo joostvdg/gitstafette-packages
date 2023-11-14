@@ -8,15 +8,18 @@ spec:
     istio: ingressgateway # use Istio default gateway implementation
   servers:
     - port:
-        number: 80
-        name: http
-        protocol: HTTP
-      hosts:
-        - {{ .Values.httpproxy.fqdn }}
-    - port:
         number: 443
         name: https
         protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: {{ include "tls.secretName" . }}
+      hosts:
+        - {{ .Values.httpproxy.fqdn }}
+    - port:
+        number: 10443
+        name: tls-passthrough
+        protocol: TLS
       tls:
         mode: SIMPLE
         credentialName: {{ include "tls.secretName" . }}

@@ -8,13 +8,23 @@ spec:
     - {{ .Values.httpproxy.fqdn }}
   gateways:
     - {{ include "server.fullname" . }}
+
   http:
     - match:
-        - uri:
-            prefix: /
+        - port: 443
+          uri:
+            prefix: /v1
       route:
         - destination:
+            host: {{ include "server.fullname" . }}
             port:
               number: 80
+  tcp:
+    - match:
+        - port: 10443
+      route:
+        - destination:
             host: {{ include "server.fullname" . }}
+            port:
+              number: 50051
 {{- end }}
