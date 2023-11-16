@@ -15,7 +15,7 @@ spec:
         mode: SIMPLE
         credentialName: {{ include "tls.secretName" . }}
       hosts:
-        - {{ .Values.fqdn }}
+        - {{ .Values.fqdnWeb }}
     - port:
         number: 10443
         name: tls-passthrough

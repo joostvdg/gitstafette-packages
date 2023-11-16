@@ -6,6 +6,7 @@ metadata:
 spec:
   hosts:
     - {{ .Values.fqdn }}
+    - {{ .Values.fqdnWeb }}
   gateways:
     - {{ include "server.fullname" . }}
 

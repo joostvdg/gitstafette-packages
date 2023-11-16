@@ -26,6 +26,7 @@ service:
   type: ClusterIP
   port: 80
 fqdn: gsf-server.home.lab
+fqdnWeb: gsf-server-web.home.lab
 ingress:
   enabled: false
 httpproxy:
