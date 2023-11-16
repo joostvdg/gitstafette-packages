@@ -1,0 +1,1 @@
+This is currently a client only relay, no external ports.

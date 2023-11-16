@@ -1,0 +1,50 @@
+name: "gsf-relay-537845873"
+namespace: "gsf"
+
+app:
+  repositories: "537845873"
+  clientId: "raspi-537845873"
+
+security:
+  certmanager:
+    generateCert: true
+    host: local-gsf-relay-537845873.home.lab
+    issuer:
+      name: "kearos-issuer"
+      kind: "ClusterIssuer"
+
+image:
+  tag: 0.1.0-e0a2c7d
+
+grpcServer:
+  host: gsf-gsf-server.gsf.svc.cluster.local
+  port: 50051
+  insecureFlag: "--insecure"
+  streamWindow: 3600
+
+relay:
+  enabled: false
+  host: "jenkins.jenkins.svc.cluster.local"
+  path: "/github-webhook/"
+  healthCheckPath: "/login"
+  port: "8080"
+  protocol: "http"
+  insecure: true
+
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 16Mi
+  limits:
+    memory: 32Mi
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: beta.kubernetes.io/arch
+          operator: In
+          values:
+          - arm64     
