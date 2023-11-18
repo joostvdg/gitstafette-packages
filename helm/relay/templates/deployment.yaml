@@ -36,6 +36,15 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{ if .Values.grpcServer.oauthToken.enabled }}}
+          env:
+            - name: OAUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.grpcServer.oauthToken.secretName }}
+                  key: token
+                  optional: false
+          {{ end }}
           args:
             - "--repo"
             - "{{ .Values.app.repositories }}"
