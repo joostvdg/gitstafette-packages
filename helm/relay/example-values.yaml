@@ -21,6 +21,10 @@ grpcServer:
   port: 50051
   insecureFlag: "--insecure"
   streamWindow: 3600
+  oauthToken:
+    enabled: true
+    secretName: "gistafette-client-aws-oauth"
+
 
 relay:
   enabled: false
