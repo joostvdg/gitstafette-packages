@@ -47,6 +47,9 @@ spec:
             - "{{ .Values.grpcServer.port }}"
             - "--streamWindow"
             - "{{ .Values.grpcServer.streamWindow }}"
+            {{ if and .Values.grpcServer.insecure }}
+            - "--insecure"
+            {{ end }}
             {{ if and .Values.relay.enabled }}
             - "--relayEnabled=true"
             - "--relayHost"
