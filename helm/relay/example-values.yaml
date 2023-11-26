@@ -22,7 +22,7 @@ grpcServer:
   insecureFlag: "--insecure"
   streamWindow: 3600
   oauthToken:
-    enabled: true
+    enabled: false
     secretName: "gistafette-client-aws-oauth"
 
 
