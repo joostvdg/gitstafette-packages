@@ -40,3 +40,11 @@ httpproxy:
     replacement: /
 istio:
   enabled: true
+env:
+  - name: OTEL_SERVICE_NAME
+    value: "GSF-Server-1"
+  - name: OTEL_HOSTNAME
+    value: "otel-collector-opentelemetry-collector.mon.svc.cluster.local"
+  - name: OTEL_PORT
+    value: "4317"
+
