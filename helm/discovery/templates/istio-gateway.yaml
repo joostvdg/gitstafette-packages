@@ -1,0 +1,28 @@
+{{ if .Values.istio.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ include "discovery.fullname" . }}
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: {{ include "tls.secretName" . }}
+      hosts:
+        - {{ .Values.fqdnWeb }}
+    - port:
+        number: 10443
+        name: tls-passthrough
+        protocol: TLS
+      tls:
+        mode: SIMPLE
+        credentialName: {{ include "tls.secretName" . }}
+      hosts:
+        - {{ .Values.fqdn }}
+{{- end }}

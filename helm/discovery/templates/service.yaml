@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "discovery.fullname" . }}
+  labels:
+    {{- include "discovery.labels" . | nindent 4 }}
+  
+  #! Only needed when using normal Ingress resource with Contour
+  {{ if .Values.ingress.enabled }}
+  annotations:
+    projectcontour.io/upstream-protocol.h2c: {{ .Values.app.grpcPort }} 
+  {{ end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.app.httpPort }}
+      protocol: TCP
+      name: http
+    - port: {{ .Values.app.grpcPort }}
+      targetPort: {{ .Values.app.grpcPort }}
+      protocol: TCP
+      name: grpc
+  selector:
+    {{- include "discovery.selectorLabels" . | nindent 4 }}

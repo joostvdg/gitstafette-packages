@@ -1,0 +1,31 @@
+{{ if .Values.istio.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "discovery.fullname" . }}
+spec:
+  hosts:
+    - {{ .Values.fqdn }}
+    - {{ .Values.fqdnWeb }}
+  gateways:
+    - {{ include "discovery.fullname" . }}
+
+  http:
+    - match:
+        - port: 443
+          uri:
+            prefix: /v1
+      route:
+        - destination:
+            host: {{ include "discovery.fullname" . }}
+            port:
+              number: 80
+  tcp:
+    - match:
+        - port: 10443
+      route:
+        - destination:
+            host: {{ include "discovery.fullname" . }}
+            port:
+              number: 50051
+{{- end }}

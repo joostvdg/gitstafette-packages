@@ -1,0 +1,45 @@
+name: "gsf-discovery"
+namespace: "gsf"
+
+app:
+  clientId: "raspi-dicovery"
+  extraArgs: []
+  extraFlags: []
+
+podLabels:
+  app.kubernetes.io/component: "gsf-discovery"
+  app.kubernetes.io/part-of: "gsf-homelab"
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "8080"
+
+security:
+  useGeneratedCert: false
+  certmanager:
+    generateCert: true
+    host: gsf-discovery.home.lab
+    issuer:
+      name: "kearos-issuer"
+      kind: "ClusterIssuer"
+
+image:
+  tag: "0.4.0-debian"
+
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 16Mi
+  limits:
+    memory: 32Mi
+
+env:
+  - name: OTEL_SERVICE_NAME
+    value: "GSF-Discovery-1"
+  - name: OTEL_EXPORTER_OTLP_ENDPOINT
+    value: "http://otel-collector-opentelemetry-collector.mon.svc.cluster.local:4317"
+  - name: OTEL_TRACES_SAMPLER
+    value: "ParentBased(root=TraceIdRatioBased)"
+  - name: OTEL_TRACES_SAMPLER_ARG
+    value: "0.2"
