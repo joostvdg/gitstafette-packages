@@ -50,7 +50,8 @@ serviceAccount:
   name: ""
 
 podAnnotations: {}
-podLabels: {}
+podLabels:
+  app.kubernetes.io/component: "gsf-server"
 
 podSecurityContext: {}
   # fsGroup: 2000
