@@ -16,6 +16,8 @@ namespace: "default"
 app:
   repositories: ""
   clientId: "carvel"
+  extraArgs: []
+  extraFlags: []
 
 grpcServer:
   host: gsf-gsf-server.gsf.svc.cluster.local
@@ -61,7 +63,8 @@ serviceAccount:
   name: ""
 
 podAnnotations: {}
-podLabels: {}
+podLabels:
+  app.kubernetes.io/component: "gsf-relay"
 
 podSecurityContext: {}
   # fsGroup: 2000

@@ -90,6 +90,12 @@ spec:
             - "--certKeyFileLocation"
             - "/etc/tls/tls.key"
             {{ end }}
+            {{ if .Values.app.extraArgs }}
+            {{- toYaml .Values.app.extraArgs | nindent 12 }}
+            {{- end }}
+            {{- with .Values.app.extraFlags }}
+            - {{ . | quote }}
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /health

@@ -12,6 +12,8 @@ podLabels:
   app.kubernetes.io/part-of: "gsf-homelab"
 
 security:
+  useGeneratedCert: true
+  caOnly: false
   certmanager:
     generateCert: true
     host: local-gsf-relay-537845873.home.lab
