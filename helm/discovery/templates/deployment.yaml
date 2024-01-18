@@ -36,13 +36,6 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args:
-            - "--listener-address"
-            - "127.0.0.1"
-            # {{ if and .Values.security.useGeneratedCert }}
-            # - "--caFileLocation"
-            # - "/etc/tls/ca.crt"
-            # {{ end }}
           {{- with .Values.env }}
           env:
             {{- toYaml . | nindent 12 }}

@@ -48,3 +48,15 @@ env:
   - name: OTEL_PORT
     value: "4317"
 
+discovery:
+  enabled: true
+  image:
+    tag: "0.5.0-alpine"  
+  hostname: "gsf-gsf-discovery.gsf.svc.cluster.local"
+  env:
+    - name: OTEL_SERVICE_NAME
+      value: "GSF-Discovery-1"
+    - name: OTEL_HOSTNAME
+      value: "otel-collector-opentelemetry-collector.mon.svc.cluster.local"
+    - name: OTEL_PORT
+      value: "4317"

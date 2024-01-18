@@ -34,6 +34,30 @@ security:
       name: ""
       kind: ""
 
+# --hostname 127.0.0.1 info-registration-loop --info-host 127.0.0.1 --info-port 50056 --info-protocol http
+discovery:
+  enabled: false
+  image:
+    repository: ghcr.io/joostvdg/gitstafette/discovery
+    pullPolicy: IfNotPresent
+    tag: "0.5.0-alpine"  
+  hostname: "gsf-discovery"
+  port: 50051
+  protocol: http
+  info:
+    hostname: 127.0.0.1
+    port: 50051
+    protocol: http
+  resources:
+    requests:
+      cpu: 250m
+      memory: 16Mi
+    limits:
+      memory: 32Mi
+  env:
+    - name: OTEL_SERVICE_NAME
+      value: "GSF-Discovery-1"
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
