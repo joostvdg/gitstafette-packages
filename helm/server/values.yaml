@@ -38,9 +38,9 @@ security:
 discovery:
   enabled: false
   image:
-    repository: ghcr.io/joostvdg/gitstafette/discovery
+    repository: ghcr.io/joostvdg/gitstafette-discovery
     pullPolicy: IfNotPresent
-    tag: "0.5.0-alpine"  
+    tag: "0.5.1-client-alpine"
   hostname: "gsf-discovery"
   port: 50051
   protocol: http
