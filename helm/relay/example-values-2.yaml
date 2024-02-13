@@ -35,10 +35,10 @@ grpcServer:
 
 
 relay:
-  enabled: false
-  host: "jenkins.jenkins.svc.cluster.local"
-  path: "/github-webhook/"
-  healthCheckPath: "/login"
+  enabled: true
+  host: "el-gitstafette-image-builds.gsf.svc.cluster.local"
+  path: "/"
+  healthCheckPath: "/"
   port: "8080"
   protocol: "http"
   insecure: true
@@ -47,9 +47,9 @@ relay:
 resources:
   requests:
     cpu: 250m
-    memory: 16Mi
-  limits:
     memory: 32Mi
+  limits:
+    memory: 128Mi
 
 affinity:
   nodeAffinity:
@@ -63,8 +63,19 @@ affinity:
 
 env:
   - name: OTEL_SERVICE_NAME
-    value: "GSF-Server-1"
+    value: "GSF-Client-1"
   - name: OTEL_HOSTNAME
     value: "otel-collector-opentelemetry-collector.mon.svc.cluster.local"
   - name: OTEL_PORT
     value: "4317"
+
+discovery:
+  enabled: true
+  image:
+    tag: "0.5.1-client-alpine"
+  hostname: "gsf-gsf-discovery.gsf.svc.cluster.local"
+  env:
+    - name: OTEL_SERVICE_NAME
+      value: "GSF-Discovery-1"
+    - name: OTEL_EXPORTER_OTLP_ENDPOINT
+      value: "http://otel-collector-opentelemetry-collector.mon.svc.cluster.local:4317"

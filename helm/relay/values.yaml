@@ -8,7 +8,7 @@ image:
   repository: ghcr.io/joostvdg/gitstafette/client
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.1.0-e0a2c7d"
+  tag: "0.3.0"
 
 name: "gsf-relay"
 namespace: "default"
@@ -46,6 +46,29 @@ security:
     issuer:
       name: ""
       kind: ""
+
+discovery:
+  enabled: false
+  image:
+    repository: ghcr.io/joostvdg/gitstafette-discovery
+    pullPolicy: IfNotPresent
+    tag: "0.5.1-client-alpine"
+  hostname: "gsf-discovery"
+  port: 50051
+  protocol: http
+  info:
+    hostname: 127.0.0.1
+    port: 50051
+    protocol: http
+  resources:
+    requests:
+      cpu: 250m
+      memory: 32Mi
+    limits:
+      memory: 64Mi
+  env:
+    - name: OTEL_SERVICE_NAME
+      value: "GSF-Discovery-1"
 
 imagePullSecrets: []
 nameOverride: ""

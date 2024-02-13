@@ -82,6 +82,7 @@ spec:
             {{ if and .Values.security.useGeneratedCert .Values.security.caOnly }}
             - "--caFileLocation"
             - "/etc/tls/ca.crt"
+            - "--secure"
             {{ else if and .Values.security.useGeneratedCert (not .Values.security.caOnly) }}
             - "--caFileLocation"
             - "/etc/tls/ca.crt"
@@ -89,6 +90,7 @@ spec:
             - "/etc/tls/tls.crt"
             - "--certKeyFileLocation"
             - "/etc/tls/tls.key"
+            - "--secure"
             {{ end }}
             {{ if .Values.app.extraArgs }}
             {{- toYaml .Values.app.extraArgs | nindent 12 }}
@@ -116,6 +118,43 @@ spec:
               name: tls
               readOnly: true
           {{ end }}
+      {{ if .Values.discovery }} 
+        - name: discovery-client
+          image: "{{ .Values.discovery.image.repository }}:{{ .Values.discovery.image.tag}}"
+          imagePullPolicy: {{ .Values.discovery.image.pullPolicy }}
+          args:
+            - "--hostname"
+            - "{{ .Values.discovery.hostname }}"
+            - "--port"
+            - "{{ .Values.discovery.port }}"
+            - "--protocol"
+            - "{{ .Values.discovery.protocol }}"
+            - "info-registration-loop"
+            - "--info-host"
+            - "{{ .Values.discovery.info.hostname }}"
+            - "--info-port"
+            - "{{ .Values.discovery.info.port }}"
+            - "--info-protocol"
+            - "{{ .Values.discovery.info.protocol }}"
+          {{- with .Values.discovery.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 8082
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: "/"
+              port: http
+          readinessProbe:
+            httpGet:
+              path: "/"
+              port: http
+          resources:
+            {{- toYaml .Values.discovery.resources | nindent 12 }}
+      {{- end}}
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
